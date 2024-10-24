@@ -1,0 +1,76 @@
+.navbar {
+  background-color: #00458a;
+  padding: 0.8rem 1.5rem; /* Menos padding para que sea más compacta */
+  display: flex;
+  justify-content: space-between; /* Separación entre los elementos de la izquierda y derecha */
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  position: sticky; /* Fija la barra al hacer scroll */
+  top: 0;
+  z-index: 1000;
+}
+
+.navlinks {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* Ajusta la separación entre los enlaces */
+  margin: 0;
+  padding: 0;
+}
+
+.navlinks li {
+  display: inline-block;
+}
+
+.navlinks a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600; /* Negrita ligera para un aspecto más elegante */
+  padding: 0.5rem 0.8rem; /* Menos padding para que sea más sutil */
+  font-size: 1rem; /* Tamaño de texto moderado */
+  transition: background-color 0.2s ease;
+  border-radius: 20px; /* Bordes más suaves y redondeados */
+}
+
+.navlinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15); /* Hover más sutil */
+  transition: background-color 0.3s ease;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  background-color: #f0f0f0; /* Fondo gris claro para contraste */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.searchInput {
+  padding: 0.5rem;
+  width: 180px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #0079a8;
+}
+
+.dateInput {
+  padding: 0.5rem;
+  width: 140px; /* Tamaño más pequeño para que todo esté alineado */
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #0079a8;
+}

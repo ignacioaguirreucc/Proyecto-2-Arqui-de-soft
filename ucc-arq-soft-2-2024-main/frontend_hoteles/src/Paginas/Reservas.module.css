@@ -1,0 +1,63 @@
+.reservationsContainer {
+    padding: 40px;
+    background-color: #f9f9f9;
+    font-family: 'Lato', sans-serif;
+    color: #333;
+  }
+  
+  .heading {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .noReservations {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #777;
+  }
+  
+  .reservationList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .reservationCard {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hotelName {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .reservationDate {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .reservationStatus {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  
+  .confirmada {
+    color: #28a745;
+  }
+  
+  .pendiente {
+    color: #ffc107;
+  }
+  
+  .cancelada {
+    color: #dc3545;
+  }
+  
