@@ -37,6 +37,21 @@ func NewService(mainRepository, cacheRepository, memcachedRepository Repository,
 	}
 }
 
+func (service Service) GetByUsername(username string) (domain.User, error) {
+	// Llamamos al repositorio principal para obtener el usuario por su nombre de usuario
+	user, err := service.mainRepository.GetByUsername(username)
+	if err != nil {
+		return domain.User{}, fmt.Errorf("error getting user by username: %w", err)
+	}
+
+	// Convertimos el dao.User a domain.User antes de devolverlo
+	return domain.User{
+		ID:       user.ID,
+		Username: user.Username,
+		Password: user.Password,
+	}, nil
+}
+
 func (service Service) GetAll() ([]domain.User, error) {
 	users, err := service.mainRepository.GetAll()
 	if err != nil {
@@ -79,43 +94,6 @@ func (service Service) GetByID(id int64) (domain.User, error) {
 	user, err = service.mainRepository.GetByID(id)
 	if err != nil {
 		return domain.User{}, fmt.Errorf("error getting user by ID: %w", err)
-	}
-
-	// Save in cache and memcached
-	if _, err := service.cacheRepository.Create(user); err != nil {
-		fmt.Println(fmt.Sprintf("warning: error caching user after main retrieval: %s", err.Error()))
-	}
-	if _, err := service.memcachedRepository.Create(user); err != nil {
-		fmt.Println(fmt.Sprintf("warning: error saving user in memcached: %s", err.Error()))
-	}
-
-	return service.convertUser(user), nil
-}
-
-func (service Service) GetByUsername(username string) (domain.User, error) {
-	// Check in cache first
-	user, err := service.cacheRepository.GetByUsername(username)
-	if err == nil {
-		return service.convertUser(user), nil
-	} else {
-		fmt.Println(fmt.Sprintf("warning: error getting user by username from cache: %s", err.Error()))
-	}
-
-	// Check memcached
-	user, err = service.memcachedRepository.GetByUsername(username)
-	if err == nil {
-		if _, err := service.cacheRepository.Create(user); err != nil {
-			fmt.Println(fmt.Sprintf("warning: error caching user after memcached retrieval: %s", err.Error()))
-		}
-		return service.convertUser(user), nil
-	} else {
-		fmt.Println(fmt.Sprintf("warning: error getting user by username from memcached: %s", err.Error()))
-	}
-
-	// Check main repository
-	user, err = service.mainRepository.GetByUsername(username)
-	if err != nil {
-		return domain.User{}, fmt.Errorf("error getting user by username: %w", err)
 	}
 
 	// Save in cache and memcached

@@ -2,10 +2,11 @@ package users
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 	domain "users-api/domain/users"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Service interface {
@@ -15,6 +16,7 @@ type Service interface {
 	Update(user domain.User) error
 	Delete(id int64) error
 	Login(username string, password string) (domain.LoginResponse, error)
+	GetByUsername(username string) (domain.User, error)
 }
 
 type Controller struct {
@@ -64,18 +66,24 @@ func (controller Controller) GetByID(c *gin.Context) {
 	// Send user
 	c.JSON(http.StatusOK, user)
 }
-
 func (controller Controller) Create(c *gin.Context) {
-	// Parse user from HTTP Request
 	var user domain.User
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"error": fmt.Sprintf("invalid request: %s", err.Error()),
 		})
 		return
 	}
 
-	// Invoke service
+	// Verificar si el usuario ya existe
+	existingUser, _ := controller.service.GetByUsername(user.Username)
+	if existingUser.ID != 0 {
+		c.JSON(http.StatusConflict, gin.H{
+			"error": "El nombre de usuario ya está en uso.",
+		})
+		return
+	}
+
 	id, err := controller.service.Create(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -84,7 +92,6 @@ func (controller Controller) Create(c *gin.Context) {
 		return
 	}
 
-	// Send ID
 	c.JSON(http.StatusCreated, gin.H{
 		"id": id,
 	})
@@ -160,11 +167,21 @@ func (controller Controller) Login(c *gin.Context) {
 		return
 	}
 
-	// Invoke service
+	// Check if the username exists
+	existingUser, err := controller.service.GetByUsername(user.Username)
+	if err != nil || existingUser.ID == 0 {
+		// Si no se encuentra el usuario
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "El usuario no existe o la contraseña es incorrecta.",
+		})
+		return
+	}
+
+	// Invoke service to verify password and generate token
 	response, err := controller.service.Login(user.Username, user.Password)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": fmt.Sprintf("unauthorized: %s", err.Error()),
+			"error": "El usuario no existe o la contraseña es incorrecta.",
 		})
 		return
 	}

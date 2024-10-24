@@ -75,13 +75,12 @@ func (repository MySQL) GetByID(id int64) (users.User, error) {
 
 func (repository MySQL) GetByUsername(username string) (users.User, error) {
 	var user users.User
-	if err := repository.db.
-		QueryRow("SELECT id, username, password FROM users WHERE username = ?", username).
-		Scan(&user.ID, &user.Username, &user.Password); err != nil {
+	err := repository.db.QueryRow("SELECT id, username, password FROM users WHERE username = ?", username).Scan(&user.ID, &user.Username, &user.Password)
+	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return user, fmt.Errorf("user not found")
+			return users.User{}, fmt.Errorf("user not found")
 		}
-		return user, fmt.Errorf("error fetching user by username: %w", err)
+		return users.User{}, fmt.Errorf("error fetching user by username: %w", err)
 	}
 	return user, nil
 }

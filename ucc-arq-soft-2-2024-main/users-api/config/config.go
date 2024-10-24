@@ -5,7 +5,7 @@ import "time"
 const (
 	MySQLHost     = "localhost"
 	MySQLPort     = "3306"
-	MySQLDatabase = "users-api"
+	MySQLDatabase = "users_api"
 	MySQLUsername = "root"
 	MySQLPassword = "root"
 	CacheDuration = 30 * time.Second

@@ -1,13 +1,17 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
+	"path/filepath"
+	"time"
 	"users-api/config"
 	controllers "users-api/controllers/users"
 	"users-api/internal/tokenizers"
 	repositories "users-api/repositories/users"
 	services "users-api/services/users"
+
+	"github.com/gin-contrib/cors" // Importar el paquete cors
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -48,7 +52,27 @@ func main() {
 	// Create router
 	router := gin.Default()
 
-	// URL mappings
+	// Configuración de CORS
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},        // Permitir origen del frontend
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"}, // Métodos permitidos
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Authorization"},
+		AllowCredentials: true,           // Permitir credenciales (cookies, tokens, etc.)
+		MaxAge:           12 * time.Hour, // Cache de las solicitudes pre-flight
+	}))
+
+	// Servir archivos estáticos
+	router.Static("/static", "./build/static")                   // Archivos estáticos generados
+	router.StaticFile("/favicon.ico", "./build/favicon.ico")     // Favicon
+	router.StaticFile("/manifest.json", "./build/manifest.json") // Manifest
+
+	// Ruta para el index.html
+	router.NoRoute(func(c *gin.Context) {
+		c.File(filepath.Join("build", "index.html"))
+	})
+
+	// API Endpoints
 	router.GET("/users", controller.GetAll)
 	router.GET("/users/:id", controller.GetByID)
 	router.POST("/users", controller.Create)
