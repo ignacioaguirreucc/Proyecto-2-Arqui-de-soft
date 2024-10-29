@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './DetalleHotel.module.css';
 
-const mockHotels = [
+const mockHotels = [ 
     {
       id: 1,
       name: 'Hotel Las Estrellas',
@@ -11,6 +11,8 @@ const mockHotels = [
       image: require('../img/vistaalmar.jpg'),
       amenities: 'Wifi gratuito, Piscina infinita, Spa, Restaurante gourmet, Desayuno buffet incluido, Bar en la azotea.',
       rooms: 'Habitaciones deluxe con vista al mar, Suites nupciales, Habitaciones estándar con balcón.',
+      country: 'España',
+      city: 'Barcelona',
       location: 'Ubicado frente a la playa, a 5 minutos del puerto y a 15 minutos del centro de la ciudad.',
       policies: 'Cancelación gratuita hasta 48 horas antes de la llegada. Check-in a partir de las 15:00, check-out antes de las 12:00.'
     },
@@ -22,6 +24,8 @@ const mockHotels = [
       image: require('../img/allinclusive.jpg'),
       amenities: 'Wifi gratuito, Piscina, Buffet internacional, Club nocturno, Animación en vivo, Todo incluido 24 horas.',
       rooms: 'Habitaciones estándar, Habitaciones con acceso directo a la piscina, Suites familiares.',
+      country: 'Mexico',
+      city: 'Cancun',
       location: 'Situado en una playa privada, a 20 minutos en coche del aeropuerto y 10 minutos del centro comercial local.',
       policies: 'Cancelación gratuita hasta 72 horas antes de la llegada. Check-in a partir de las 14:00, check-out antes de las 11:00.'
     },
@@ -33,6 +37,8 @@ const mockHotels = [
       image: require('../img/hotelmontañas.jpg'),
       amenities: 'Wifi en áreas comunes, Senderos naturales, Spa con vista panorámica, Restaurante con ingredientes locales, Actividades al aire libre.',
       rooms: 'Cabañas de lujo con chimenea, Habitaciones estándar con vista a la montaña, Suites con jacuzzi.',
+      country: 'Argentina',
+      city: 'Cordoba',
       location: 'En un valle rodeado de naturaleza, a 30 minutos de la reserva natural y a 1 hora del centro urbano más cercano.',
       policies: 'Cancelación gratuita hasta 5 días antes de la llegada. Check-in a partir de las 13:00, check-out antes de las 10:00.'
     },
@@ -44,6 +50,8 @@ const mockHotels = [
       image: require('../img/caribe.jpg'),
       amenities: 'Wifi gratuito en todas las áreas, Piscina privada en cada villa, Deportes acuáticos, Spa, Cocina internacional y local, Playa privada con tumbonas.',
       rooms: 'Villas privadas, Suites con terraza privada, Habitaciones de lujo con acceso directo a la playa.',
+      country: 'Bahamas',
+      city: 'Nassau',
       location: 'Ubicado en una isla privada, a 40 minutos en barco del puerto más cercano.',
       policies: 'Cancelación gratuita hasta 7 días antes de la llegada. Check-in a partir de las 16:00, check-out antes de las 12:00.'
     },
@@ -55,6 +63,8 @@ const mockHotels = [
       image: require('../img/centrohotel.jpg'),
       amenities: 'Wifi de alta velocidad, Centro de negocios 24 horas, Gimnasio, Restaurante ejecutivo, Salas de reuniones y conferencias, Servicio de traslado al aeropuerto.',
       rooms: 'Habitaciones ejecutivas, Suites de negocios, Habitaciones estándar.',
+      country: 'Colombia',
+      city: 'Bogota',
       location: 'En pleno distrito financiero, a 5 minutos caminando de oficinas corporativas y 10 minutos del aeropuerto.',
       policies: 'Cancelación gratuita hasta 24 horas antes de la llegada. Check-in a partir de las 14:00, check-out antes de las 11:00.'
     },
@@ -66,6 +76,8 @@ const mockHotels = [
       image: require('../img/sierrashotel.jpg'),
       amenities: 'Club infantil, Parque acuático, Wifi gratuito, Actividades recreativas, Restaurante buffet, Servicio de niñera.',
       rooms: 'Habitaciones familiares, Suites comunicadas, Habitaciones con vista al jardín.',
+      country: 'Argentina',
+      city: 'Misiones',
       location: 'Ubicado en la sierra, a 15 minutos del centro del pueblo y a 30 minutos de rutas de senderismo.',
       policies: 'Cancelación gratuita hasta 48 horas antes de la llegada. Check-in a partir de las 14:00, check-out antes de las 12:00.'
     }
@@ -94,6 +106,16 @@ const DetalleHotel = () => {
             <p className={styles.hotelRooms}>
               <strong>Tipos de habitaciones:</strong> {hotel.rooms}
             </p>
+            
+
+            <p className={styles.hotelLocation}>
+              <strong>Country:</strong> {hotel.country}
+            </p>
+            <p className={styles.hotelLocation}>
+              <strong>City:</strong> {hotel.city}
+            </p>
+
+
             <p className={styles.hotelLocation}>
               <strong>Ubicación:</strong> {hotel.location}
             </p>

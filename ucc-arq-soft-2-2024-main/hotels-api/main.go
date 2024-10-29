@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"hotels-api/clients/queues"
 	controllers "hotels-api/controllers/hotels"
 	repositories "hotels-api/repositories/hotels"
 	services "hotels-api/services/hotels"
 	"log"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -48,7 +49,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/hotels/:id", controller.GetHotelByID)
 	router.POST("/hotels", controller.Create)
-	if err := router.Run(":8080"); err != nil {
-		log.Fatalf("error running application: %w", err)
+	if err := router.Run(":8081"); err != nil {
+		log.Fatalf("error running application: %v", err)
 	}
 }
